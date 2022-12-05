@@ -1,9 +1,59 @@
 {
-  "name": "demo-repo",
-  "version": "0.2.0",
-  "description": "A sample package.json",
-  "dependencies": {
-    "@primer/css": "17.0.1"
+  "name": "codesmith_reinforcement-project",
+  "version": "1.0.0",
+  "description": "Application Tracker",
+  "main": "webpack.config.js",
+  "scripts": {
+    "dev": "NODE_ENV=development webpack serve --open && tsc server/server.ts & nodemon server/server.js",
+    "start": "NODE_ENV=production nodemon server/server.js",
+    "build": "NODE_ENV=production webpack"
   },
-  "license": "MIT"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jigglypuff36/demo-repository.git"
+  },
+  "author": "Andres, Mohammed, Luis, Wendy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jigglypuff36/demo-repository/issues"
+  },
+  "homepage": "https://github.com/Jigglypuff36/demo-repository#readme",
+  "dependencies": {
+    "@babel/plugin-transform-async-to-generator": "^7.1.0",
+    "@babel/runtime": "^7.1.2",
+    "axios": "^0.24.0",
+    "cors": "^2.8.5",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.3",
+    "nodemon": "^2.0.20",
+    "prop-types": "^15.6.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@types/cors": "^2.8.12",
+    "@types/node": "^18.11.9",
+    "@types/react-dom": "^18.0.8",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-loader": "^8.0.4",
+    "concurrently": "^7.6.0",
+    "css-loader": "^6.5.1",
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "html-webpack-plugin": "^5.5.0",
+    "nodemon": "^2.0.20",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.1",
+    "webpack": "^5.62.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.11.1"
+  }
 }
