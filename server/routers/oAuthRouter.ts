@@ -1,23 +1,40 @@
 const express = require('express');
-const auth = require('./oAuth');
 const passport = require('passport');
-import { Request, Response } from 'express';
-import { appendFile } from 'fs';
+import { Request, Response, NextFunction } from 'express';
+import { request } from 'http';
+// import { authController } from '../controllers/authController';
+// require('../controllers/authController');
 
+import '../controllers/authController'
 
-const oAuthRouter = express.Router();
+const oauthRouter = express.Router();
 
-oAuthRouter.get('/', (req: Request, res: Response) => {
-    return res.status(200).send('<a href="/auth/google">Authenticate with Google</a>')
+const successLoginUrl = 'http://localhost:3000/login/success';
+const errorLoginUrl = 'http://localhost:3000/login/error';
+
+oauthRouter.get('/', (req: Request, res: Response) => {
+    res.status(200).send("<a href='/login/google'>Authenticate with Google</a>")
 })
 
-oAuthRouter.get('/auth/google', 
+oauthRouter.get('/login/google', 
     passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 
-oAuthRouter.get('/protected', (req: Request, res: Response) => {
-    res.status(200).send('Hello!')
+oauthRouter.get('/oauth/google/callback',
+    passport.authenticate('google', { 
+        failureMessage: 'Cannot Login to Google, Please try again later',
+        failureRedirect: errorLoginUrl,
+        successRedirect: successLoginUrl
+    }),
+    (req: Request, res: Response) => {
+        console.log('User: ', req.user);
+        res.send('Thank you for signing in!');
 })
 
 
-export default oAuthRouter;
+// oauthRouter.get('/protected', (req: Request, res: Response) => {
+//     res.status(200).send('Hello!')
+// })
+
+
+export default oauthRouter;

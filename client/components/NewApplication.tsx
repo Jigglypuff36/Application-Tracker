@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import "../styles/index.css";
 import Button from "./Button";
 import FormInput from './FormInput'
@@ -9,7 +8,7 @@ function generateId () {
 }
 
 function NewApplication () {
-  const [newApplication, setnewApplication] = React.useState([])
+  const [newApplication, setNewApplication] = React.useState([])
   const [input, setInput] = React.useState('')
 
   const handleSubmit = () => {

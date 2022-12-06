@@ -1,8 +1,20 @@
 const path = require('path');
 const express = require('express')
+const session = require('express-session')
+// const passport = require('passport')
+require('dotenv').config();
 import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
-import oAuthRouter from './routers/oAuthRouter';
+import oauthRouter from './routers/oAuthRouter';
 import { ErrorType } from '../types';
+import { db } from './models/model'
+// import { authController } from './controllers/authController';
+// require('./controllers/authController');
+// require('passport');
+import * as passport from 'passport';
+import userRouter from './routers/userRouter'
+// import session from 'express-session';
+// require('./controllers/authController');
+import './controllers/authController'
 
 const app = express();
 const PORT = 3000;
@@ -10,16 +22,26 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(session({
+  // resave: false,
+  // saveUninitialized: true,
+  secret: 'Secret' 
+}));
+//not sure if this is working
+app.use(passport.initialize());
+app.use(passport.session());
 
 if (process.env.NODE_ENV) {
   app.use('/', express.static(path.join(__dirname, '../dist')));
 }
 
+// app.use('/api/users', userRouter);
+
 app.use('/api/signup', (req: Request, res: Response) => {
   return res.status(200).send('hi');
 })
 
-app.use('/api/oAuth', oAuthRouter);
+app.use('/api/oauth', oauthRouter);
 
 
 //redirect to page 404 when endpoint does not exist
@@ -32,7 +54,7 @@ app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
   const defaultErr: ErrorType = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
-    message: { err: 'An error occurred' },
+    message: { err: `An error occurred ${err}` },
   };
   const errorObj = Object.assign({}, defaultErr, err);
   console.log(errorObj.log);

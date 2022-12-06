@@ -1,15 +1,16 @@
 import {Pool} from 'pg';
+const dovenv = require('dotenv').config();
 
-const PG_URI: string = 'postgres://hcbdsxtj:QNIf6lS3Q3k_RPZXcfd6xLLcYUTK3Pe3@peanut.db.elephantsql.com/hcbdsxtj';
+const PG_URI: any = process.env.PG_URL;
 
 const pool = new Pool({
     connectionString: PG_URI
 });
 
 
-module.exports = {
-    query: (text:any, params:any, callback:any) => {
+export const db = {
+    query: (text:any) => {
       console.log('executed query',text);
-      return pool.query(text,params,callback);
+      return pool.query(text);
     }
   };

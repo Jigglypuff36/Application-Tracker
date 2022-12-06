@@ -4,7 +4,7 @@
   "description": "Application Tracker",
   "main": "webpack.config.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack serve --open && tsc server/server.ts & nodemon server/server.js",
+    "dev": "NODE_ENV=development webpack serve --open & tsc server/server.ts & nodemon server/server.js",
     "start": "NODE_ENV=production nodemon server/server.js",
     "build": "NODE_ENV=production webpack"
   },
@@ -22,18 +22,18 @@
     "@babel/plugin-transform-async-to-generator": "^7.1.0",
     "@babel/runtime": "^7.1.2",
     "axios": "^0.24.0",
+    "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "cross-env": "^5.2.0",
     "daisyui": "^2.42.1",
+    "dotenv": "^16.0.3",
     "express": "^4.16.3",
+    "express-session": "^1.17.3",
     "nodemon": "^2.0.20",
-<<<<<<< HEAD
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
-=======
     "pg": "^8.8.0",
     "postcss-loader": "^7.0.2",
->>>>>>> dev
     "prop-types": "^15.6.2",
     "react": "^17.0.2",
     "react-daisyui": "^2.4.7",
@@ -46,7 +46,9 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "@types/cors": "^2.8.12",
+    "@types/express-session": "^1.17.5",
     "@types/node": "^18.11.9",
+    "@types/passport": "^1.0.11",
     "@types/pg": "^8.6.5",
     "@types/react-dom": "^18.0.8",
     "autoprefixer": "^10.4.13",
