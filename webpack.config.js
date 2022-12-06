@@ -52,12 +52,10 @@ module.exports = {
             },
             {
                 test: /\.(sa|sc|c)ss$/,
-                use: ['style-loader', 'css-loader'],
+                use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
             {
                 exclude: /node_modules/,
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.png|svg|jpg|gif$/,
@@ -66,6 +64,6 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: ['.tsx', '.tx', '.js', '.jsx'],
+        extensions: ['.tsx', '.tx', '.js', '.jsx', '.css'],
     },
 }
