@@ -1,5 +1,5 @@
 const path = require('path');
-const express = require('express');
+const express = require('express')
 import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
 
 const app = express();
@@ -13,7 +13,7 @@ if (process.env.NODE_ENV) {
   app.use('/', express.static(path.join(__dirname, '../dist')));
 }
 
-app.use('/api', (req: Request, res: Response) => {
+app.use('/api/signup', (req: Request, res: Response) => {
   return res.status(200).send('hi');
 })
 
