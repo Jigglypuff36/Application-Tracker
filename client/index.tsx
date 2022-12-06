@@ -1,15 +1,25 @@
 import React from 'react'
 import { render } from 'react-dom';
+import NewApplication from './components/NewApplication.tsx'
+import Button from './components/Button.tsx'
+import FormInput from './components/FormInput.tsx'
+
 import './styles/index.css'
-import { createRoot, Root } from 'react-dom/client';
 const App = () => {
     return (
         <div className="hero min-h-screen bg-base-200">
           <div className="hero-content text-center">
             <div className="max-w-md">
-              <h1 className="text-5xl font-bold">Hello there</h1>
-              <p className="py-6">Change colors dang it</p>
-              <button className="btn btn-primary">Get Started</button>
+              <h1 className="text-5xl font-bold">Hello there!</h1>
+              <p className="py-6">Welcome to Application Tracker!</p>
+              <p className="py-6">Please Sign In or Sign Up!</p>
+
+          
+              <Button>Login</Button>
+              <br />
+              <br />
+              <Button>SignUp</Button>
+              <NewApplication />
             </div>
           </div>
         </div>
