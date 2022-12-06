@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV) {
     app.use('/', express.static(path.join(__dirname, '../dist')));
 }
-app.use('/api', function (req, res) {
+app.use('/api/signup', function (req, res) {
     return res.status(200).send('hi');
 });
 //start app on port
