@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV) {
     app.use('/', express.static(path.join(__dirname, '../dist')));
 }
+<<<<<<< HEAD
 // app.use('/api', (req: Request, res: Response) => {
 //   return res.status(200).send('hi');
 // })
@@ -28,6 +29,10 @@ app.use(function (err, req, res, next) {
     var errorObj = Object.assign({}, defaultErr, err);
     console.log(errorObj.log);
     return res.status(errorObj.status).json(errorObj.message);
+=======
+app.use('/api/signup', function (req, res) {
+    return res.status(200).send('hi');
+>>>>>>> dev
 });
 //start app on port
 app.listen(PORT, function () {
