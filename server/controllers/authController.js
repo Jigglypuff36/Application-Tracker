@@ -43,7 +43,7 @@ var model_1 = require("../models/model");
 var dovenv = require('dotenv').config();
 //save to config.env before commit 
 var GOOGLE_CLIENT_ID = '423300255292-6bv81ekcrsb18ghje1iupihj2vgc18jo.apps.googleusercontent.com';
-var GOOGLE_CLIENT_SECRET = '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';
+var GOOGLE_CLIENT_SECRET = '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';
 var GOOGLE_CLIENT_URL = 'http://localhost:3000/api/oauth/google/callback';
 // const googleUser = {
 //   googleId: profile.id,
@@ -58,38 +58,43 @@ passport.use(new GoogleStrategy({
     callbackURL: GOOGLE_CLIENT_URL,
     passReqToCallback: true
 }, function (req, accessToken, refreshToken, profile, cb) { return __awaiter(void 0, void 0, void 0, function () {
-    var text, user, text_1, user_1, err_1;
+    var text, user, text_1, insert, findUser, user_1, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 5, , 6]);
-                console.log('profile', profile);
-                text = "select * from google_user where user_id = '".concat(profile.id, "'");
+                _a.trys.push([0, 6, , 7]);
+                console.log('profile', profile.id);
+                console.log(profile.emails[0].value);
+                text = "select * from google_user where profile_id = ".concat(profile.id);
                 return [4 /*yield*/, model_1.db.query(text)];
             case 1:
                 user = _a.sent();
-                console.log('user', user);
-                if (!user) return [3 /*break*/, 2];
+                if (!user.rows[0]) return [3 /*break*/, 2];
                 return [2 /*return*/, cb(null, user)];
             case 2:
-                text_1 = "insert into google_user values ('".concat(profile.id, "', '").concat(profile.displayName, "',' ").concat(profile.givenName, "', '").concat(profile.emails[0].value, "')");
+                text_1 = "insert into google_user (profile_id, email)  values (".concat(profile.id, ", '").concat(profile.emails[0].value, "')");
                 return [4 /*yield*/, model_1.db.query(text_1)];
             case 3:
+                insert = _a.sent();
+                findUser = "select * from google_user where profile_id = ".concat(profile.id);
+                return [4 /*yield*/, model_1.db.query(findUser)];
+            case 4:
                 user_1 = _a.sent();
+                console.log('id', user_1.rows[0].profile_id);
                 return [2 /*return*/, cb(null, user_1)];
-            case 4: return [3 /*break*/, 6];
-            case 5:
+            case 5: return [3 /*break*/, 7];
+            case 6:
                 err_1 = _a.sent();
                 console.log(err_1);
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); }));
 //create session token by grabbing the user data (id) and encode it and save it inside a cookie
 passport.serializeUser(function (user, cb) {
     console.log('serializing user:', user);
-    cb(null, user.id);
+    cb(null, user.rows[0].profile_id);
 });
 //user id encoded at the session/token
 //grab session token and grab the id and check database if this id exist
@@ -99,7 +104,7 @@ passport.deserializeUser(function (id, cb) { return __awaiter(void 0, void 0, vo
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                text = "select user_id from google_user where user_id = '".concat(id, "'");
+                text = "select profile_id from google_user where profile_id = '".concat(id, "'");
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
