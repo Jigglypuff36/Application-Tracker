@@ -36,39 +36,64 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.userController = void 0;
+exports.applicationController = void 0;
 var express = require('express');
 var model_1 = require("../models/model");
-exports.userController = {
-    createUser: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, name, username, email, password, query, result, err_1;
+exports.applicationController = {
+    addApplication: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var id, _a, companyName, jobDescription, status, newDate, newApplication, text, err_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _a = req.body, name = _a.name, username = _a.username, email = _a.email, password = _a.password;
-                    console.log(name, username, email, password);
-                    query = "INSERT INTO user_info (username, email, password, name) \n        VALUES ('".concat(username, "', '").concat(email, "', '").concat(password, "', '").concat(name, "')");
+                    id = req.params.id;
+                    _a = req.body, companyName = _a.companyName, jobDescription = _a.jobDescription, status = _a.status;
+                    newDate = new Date().toString();
+                    console.log(newDate);
+                    newApplication = [id, companyName, jobDescription, status, newDate];
+                    text = "insert into application (application_id, company_name, job_description, status, date) values ('".concat(id, "', '").concat(companyName, "', '").concat(jobDescription, "', '").concat(status, "', '").concat(newDate, "')");
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, model_1.db.query(query)];
+                    return [4 /*yield*/, model_1.db.query(text)];
                 case 2:
-                    result = _b.sent();
+                    _b.sent();
                     return [2 /*return*/, next()];
                 case 3:
                     err_1 = _b.sent();
-                    console.log(err_1);
-                    return [3 /*break*/, 4];
+                    return [2 /*return*/, next({
+                            log: "Error in application.addApplication: ".concat(err_1),
+                            status: 500,
+                            message: 'Error occured while adding application data'
+                        })];
                 case 4: return [2 /*return*/];
             }
         });
     }); },
-    getInfo: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, username, password, query;
+    updateApplication: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var id, _a, companyName, jobDescription, status, editApplication, text, err_2;
         return __generator(this, function (_b) {
-            _a = req.body, username = _a.username, password = _a.password;
-            query = "SELECT * FROM user_info WHERE username='".concat(username, "' AND password='").concat(password, "'");
-            return [2 /*return*/];
+            switch (_b.label) {
+                case 0:
+                    id = req.params.id;
+                    _a = req.body, companyName = _a.companyName, jobDescription = _a.jobDescription, status = _a.status;
+                    editApplication = [id, companyName, jobDescription, status];
+                    text = "insert into application (application_id, company_name, job_description, resume_version, status) where user_id=".concat(id, " values ($1, $2, $3, $4, $5)");
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, model_1.db.query(text)];
+                case 2:
+                    _b.sent();
+                    return [2 /*return*/, next()];
+                case 3:
+                    err_2 = _b.sent();
+                    return [2 /*return*/, next({
+                            log: "Error in application.addApplication: ".concat(err_2),
+                            status: 500,
+                            message: 'Error occured while adding application data'
+                        })];
+                case 4: return [2 /*return*/];
+            }
         });
     }); }
 };
