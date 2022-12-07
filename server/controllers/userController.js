@@ -39,36 +39,105 @@ exports.__esModule = true;
 exports.userController = void 0;
 var express = require('express');
 var model_1 = require("../models/model");
+var bcrypt = require("bcrypt");
 exports.userController = {
     createUser: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, name, username, email, password, query, result, err_1;
+        var _a, name_1, username_1, email_1, password_1, saltRounds, err_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _a = req.body, name = _a.name, username = _a.username, email = _a.email, password = _a.password;
-                    console.log(name, username, email, password);
-                    query = "INSERT INTO user_info (username, email, password, name) \n        VALUES ('".concat(username, "', '").concat(email, "', '").concat(password, "', '").concat(name, "')");
-                    _b.label = 1;
+                    _b.trys.push([0, 2, , 3]);
+                    _a = req.body, name_1 = _a.name, username_1 = _a.username, email_1 = _a.email, password_1 = _a.password;
+                    // const query = `SELECT username FROM user_info WHERE username = '${username}'`
+                    console.log(name_1, username_1, email_1, password_1);
+                    saltRounds = 10;
+                    return [4 /*yield*/, bcrypt.genSalt(saltRounds, function (error, salt) {
+                            bcrypt.hash(password_1, salt, function (errors, hash) { return __awaiter(void 0, void 0, void 0, function () {
+                                var secondQuery, newUser;
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            console.log('Hashed password :', hash);
+                                            secondQuery = "INSERT INTO user_info (username, email, password, name) \n                    VALUES ('".concat(username_1, "', '").concat(email_1, "', '").concat(hash, "', '").concat(name_1, "') RETURNING *;");
+                                            return [4 /*yield*/, model_1.db.query(secondQuery)];
+                                        case 1:
+                                            newUser = _a.sent();
+                                            res.locals.userInfo = newUser;
+                                            return [2 /*return*/, next()];
+                                    }
+                                });
+                            }); });
+                        })];
                 case 1:
-                    _b.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, model_1.db.query(query)];
+                    _b.sent();
+                    return [3 /*break*/, 3];
                 case 2:
-                    result = _b.sent();
-                    return [2 /*return*/, next()];
-                case 3:
                     err_1 = _b.sent();
-                    console.log(err_1);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [2 /*return*/, next({
+                            log: 'error in middleware create user',
+                            message: err_1
+                        })];
+                case 3: return [2 /*return*/];
             }
         });
     }); },
     getInfo: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, username, password, query;
+        var id, query, result, err_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    id = req.body.id;
+                    query = "SELECT * FROM application WHERE application_id='".concat(id, "';");
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, model_1.db.query(query)];
+                case 2:
+                    result = _a.sent();
+                    console.log(result);
+                    res.locals.userInfo = result.fields;
+                    return [2 /*return*/, next()];
+                case 3:
+                    err_2 = _a.sent();
+                    return [2 /*return*/, next({
+                            log: 'error in middleware getinfo',
+                            message: err_2
+                        })];
+                case 4: return [2 /*return*/];
+            }
+        });
+    }); },
+    isLoggedIn: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, username, password, query, result, compare, err_3;
         return __generator(this, function (_b) {
-            _a = req.body, username = _a.username, password = _a.password;
-            query = "SELECT * FROM user_info WHERE username='".concat(username, "' AND password='").concat(password, "'");
-            return [2 /*return*/];
+            switch (_b.label) {
+                case 0:
+                    _a = req.body, username = _a.username, password = _a.password;
+                    query = "SELECT * FROM user_info WHERE username='".concat(username, "';");
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 4, , 5]);
+                    return [4 /*yield*/, model_1.db.query(query)
+                        // console.log('result :', result)
+                    ];
+                case 2:
+                    result = _b.sent();
+                    return [4 /*yield*/, bcrypt.compare(password, result.rows[0].password)];
+                case 3:
+                    compare = _b.sent();
+                    // console.log('this is compare : ', compare);
+                    if (!compare) {
+                        res.locals.userInfo = false;
+                    }
+                    return [2 /*return*/, next()];
+                case 4:
+                    err_3 = _b.sent();
+                    return [2 /*return*/, next({
+                            log: 'error in middleware isloggedin',
+                            message: err_3
+                        })];
+                case 5: return [2 /*return*/];
+            }
         });
     }); }
 };
