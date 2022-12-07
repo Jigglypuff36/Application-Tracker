@@ -13,4 +13,10 @@ router.post('/:id/addApplication', applicationController_1.applicationController
 router.post('/', userController_1.userController.createUser, function (req, res) {
     return res.status(200).send(res.locals.newUser);
 });
+router.get('/:id/getApplications', applicationController_1.applicationController.getApplications, function (req, res) {
+    return res.status(200).json(res.locals.applications);
+});
+router.patch('/:id/:appId/getApplications', applicationController_1.applicationController.updateApplication, function (req, res) {
+    return res.status(200).send('success');
+});
 exports["default"] = router;

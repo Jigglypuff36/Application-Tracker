@@ -26,13 +26,33 @@ export const applicationController = {
 
     updateApplication: async (req: Request, res: Response, next: NextFunction) => {
         //application id
-        const { id } = req.params;
+        const { id, appId } = req.params;
         const { companyName, jobDescription, status } = req.body
-        const editApplication = [id, companyName, jobDescription, status];
+        const editApplication = [companyName, jobDescription, status];
         //need to add into application table an id for each application that is being added
-        const text = `insert into application (application_id, company_name, job_description, resume_version, status) where user_id=${id} values ($1, $2, $3, $4, $5)`;
+        const text = `update application set company_name='${companyName}', job_description='${jobDescription}', status='${status}' where application_id=${id} and id=${appId}`;
         try{
             await db.query(text);
+            return next();
+        }
+        catch(err){
+            return next({
+                log: `Error in application.addApplication: ${err}`,
+                status: 500,
+                message: 'Error occured while adding application data',
+              }); 
+        }
+    },
+
+    getApplications: async (req: Request, res: Response, next: NextFunction) => {
+        //application id
+        const { id } = req.params;
+        console.log(id);
+        //need to add into application table an id for each application that is being added
+        const text = `select * from application where application_id=${id}`;
+        try{
+            const applications = await db.query(text);
+            res.locals.applications = applications.rows;
             return next();
         }
         catch(err){

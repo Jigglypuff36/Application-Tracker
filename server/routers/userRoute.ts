@@ -16,13 +16,20 @@ router.post('/:id/addApplication',applicationController.addApplication, (req:Req
     return res.status(200).send('success')
 });
 
-
-
 router.post('/', 
 userController.createUser, 
 (req: Request, res: Response) => {
     return res.status(200).send(res.locals.newUser)
 });
+
+router.get('/:id/getApplications', applicationController.getApplications, (req:Request, res:Response) => {
+    return res.status(200).json(res.locals.applications)
+});
+
+router.patch('/:id/:appId/getApplications', applicationController.updateApplication, (req:Request, res:Response) => {
+    return res.status(200).send('success')
+});
+
 
 
 

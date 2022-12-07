@@ -70,25 +70,52 @@ exports.applicationController = {
         });
     }); },
     updateApplication: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var id, _a, companyName, jobDescription, status, editApplication, text, err_2;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var _a, id, appId, _b, companyName, jobDescription, status, editApplication, text, err_2;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    id = req.params.id;
-                    _a = req.body, companyName = _a.companyName, jobDescription = _a.jobDescription, status = _a.status;
-                    editApplication = [id, companyName, jobDescription, status];
-                    text = "insert into application (application_id, company_name, job_description, resume_version, status) where user_id=".concat(id, " values ($1, $2, $3, $4, $5)");
-                    _b.label = 1;
+                    _a = req.params, id = _a.id, appId = _a.appId;
+                    _b = req.body, companyName = _b.companyName, jobDescription = _b.jobDescription, status = _b.status;
+                    editApplication = [companyName, jobDescription, status];
+                    text = "update application set company_name='".concat(companyName, "', job_description='").concat(jobDescription, "', status='").concat(status, "' where application_id=").concat(id, " and id=").concat(appId);
+                    _c.label = 1;
                 case 1:
-                    _b.trys.push([1, 3, , 4]);
+                    _c.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, model_1.db.query(text)];
                 case 2:
-                    _b.sent();
+                    _c.sent();
                     return [2 /*return*/, next()];
                 case 3:
-                    err_2 = _b.sent();
+                    err_2 = _c.sent();
                     return [2 /*return*/, next({
                             log: "Error in application.addApplication: ".concat(err_2),
+                            status: 500,
+                            message: 'Error occured while adding application data'
+                        })];
+                case 4: return [2 /*return*/];
+            }
+        });
+    }); },
+    getApplications: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var id, text, applications, err_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    id = req.params.id;
+                    console.log(id);
+                    text = "select * from application where application_id=".concat(id);
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, model_1.db.query(text)];
+                case 2:
+                    applications = _a.sent();
+                    res.locals.applications = applications.rows;
+                    return [2 /*return*/, next()];
+                case 3:
+                    err_3 = _a.sent();
+                    return [2 /*return*/, next({
+                            log: "Error in application.addApplication: ".concat(err_3),
                             status: 500,
                             message: 'Error occured while adding application data'
                         })];
