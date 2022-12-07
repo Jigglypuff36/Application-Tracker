@@ -8,7 +8,8 @@ require("../controllers/authController");
 var oauthRouter = express.Router();
 var successLoginUrl = '/login/success';
 var errorLoginUrl = '/login/error';
-oauthRouter.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+oauthRouter.get('/login/google', passport.authenticate('google', { scope: ['profile',
+        'email'] }));
 oauthRouter.get('/google/callback', passport.authenticate('google', {
     // failureMessage: 'Cannot Login to Google, Please try again later',
     failureRedirect: errorLoginUrl,

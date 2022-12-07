@@ -4,6 +4,8 @@ import { Button } from 'react-daisyui';
 const NewAppDetails = ({ addAppFunc, setApp }) => {
   //iterate through the resume versions
   // arr.push(<option> data.resume)
+
+  // these 3
   const [company, setCompany] = useState('')
   const [status, setStatus] = useState('')
   const [resume, setResume] = useState('')
@@ -17,6 +19,8 @@ return console.log(company, '----', resume, '----', status)
 
 },[company, status, resume])
 
+
+// all of these handlers + varibles
 let companyInput = ''
 let statusInput;
   const handleCompanyInput = (e) => {
@@ -32,6 +36,9 @@ let statusInput;
   const handleStatusChange = (e) => {
     setStatus(e)
   }
+// prop drill handle funcs down main > nav > newapp
+
+
 
   // const currentStatus = ['Pending', 'Interviewing', 'Rejected']
   // const resumeUsed = ['First Version', 'Google Version', 'Standard Version']

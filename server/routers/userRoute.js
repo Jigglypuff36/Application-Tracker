@@ -16,7 +16,7 @@ router.post('/', userController_1.userController.createUser, function (req, res)
 router.get('/:id/getApplications', applicationController_1.applicationController.getApplications, function (req, res) {
     return res.status(200).json(res.locals.applications);
 });
-router.patch('/:id/:appId/getApplication', applicationController_1.applicationController.updateApplication, function (req, res) {
+router.patch('/:id/:appId/updateApplication', applicationController_1.applicationController.updateApplication, function (req, res) {
     return res.status(200).send('successfully patched');
 });
 router["delete"]('/:id/:appId/deleteApplication', applicationController_1.applicationController.deleteApplication, function (req, res) {
