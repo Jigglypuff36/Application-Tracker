@@ -1,6 +1,7 @@
 import {Pool} from 'pg';
+require('dotenv').config();
 
-const PG_URI: string = 'postgres://hcbdsxtj:QNIf6lS3Q3k_RPZXcfd6xLLcYUTK3Pe3@peanut.db.elephantsql.com/hcbdsxtj';
+const PG_URI: any = 'postgres://hcbdsxtj:QNIf6lS3Q3k_RPZXcfd6xLLcYUTK3Pe3@peanut.db.elephantsql.com/hcbdsxtj';
 
 const pool = new Pool({
     connectionString: PG_URI
@@ -8,8 +9,8 @@ const pool = new Pool({
 
 
 export const db = {
-    query: (text:any, params:any, callback:any) => {
+    query: (text:any) => {
       console.log('executed query',text);
-      return pool.query(text,params,callback);
+      return pool.query(text);
     }
   };

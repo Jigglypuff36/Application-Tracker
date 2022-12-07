@@ -1,36 +1,41 @@
-import React from "react";
-// import ReactDOM from "react-dom/client";
-import "../styles/index.css";
-import Button from "./Button";
-import FormInput from './FormInput'
+import React from 'react';
+// import ReactDOM from 'react-dom/client';
+import '../styles/index.css';
+import Button from './Button';
+import FormInput from './FormInput';
+import { Route, Routes } from 'react-router-dom';
 
-function generateId () {
+function generateId() {
   return '_' + Math.random().toString(36).substr(2, 9);
 }
 
-function NewApplication () {
-  const [newApplication, setNewApplication] = React.useState([])
-  const [input, setInput] = React.useState('')
+function NewApplication() {
+  const [newApplication, setNewApplication] = React.useState([]);
+  const [input, setInput] = React.useState('');
 
   const handleSubmit = () => {
-    setNewApplication((newApplication) => newApplication.concat({
-      text: input,
-      id: generateId()
-    }))
-    setInput('')
-  }
+    setNewApplication((newApplication) =>
+      newApplication.concat({
+        text: input,
+        id: generateId(),
+      })
+    );
+    setInput('');
+  };
 
-  const removeNewApplication = (id) => setNewApplication((newApplication) => newApplication.filter((t) => t.id !== id))
+  const removeNewApplication = (id) =>
+    setNewApplication((newApplication) =>
+      newApplication.filter((t) => t.id !== id)
+    );
 
   return (
     <div>
-        <FormInput
-            type='text'
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder='New Application'       
-        >
-        </FormInput>
+      <FormInput
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="New Application"
+      ></FormInput>
       <Button onClick={handleSubmit}>Submit</Button>
 
       <ul>
@@ -45,4 +50,4 @@ function NewApplication () {
   );
 }
 
-export default NewApplication
+export default NewApplication;
