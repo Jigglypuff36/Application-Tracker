@@ -63,6 +63,25 @@ export const applicationController = {
               }); 
         }
     },
+
+    deleteApplication: async (req: Request, res: Response, next: NextFunction) => {
+        //application id
+        const { id, appId } = req.params;
+        console.log(id);
+        //need to add into application table an id for each application that is being added
+        const text = `delete from application where application_id=${id} and id=${appId}`;
+        try{
+            const deleteApplications = await db.query(text);
+            return next();
+        }
+        catch(err){
+            return next({
+                log: `Error in application.addApplication: ${err}`,
+                status: 500,
+                message: 'Error occured while adding application data',
+              }); 
+        }
+    },
     
 };
 

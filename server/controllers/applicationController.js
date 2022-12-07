@@ -122,5 +122,31 @@ exports.applicationController = {
                 case 4: return [2 /*return*/];
             }
         });
+    }); },
+    deleteApplication: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, id, appId, text, deleteApplications, err_4;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = req.params, id = _a.id, appId = _a.appId;
+                    console.log(id);
+                    text = "delete from application where application_id=".concat(id, " and id=").concat(appId);
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, model_1.db.query(text)];
+                case 2:
+                    deleteApplications = _b.sent();
+                    return [2 /*return*/, next()];
+                case 3:
+                    err_4 = _b.sent();
+                    return [2 /*return*/, next({
+                            log: "Error in application.addApplication: ".concat(err_4),
+                            status: 500,
+                            message: 'Error occured while adding application data'
+                        })];
+                case 4: return [2 /*return*/];
+            }
+        });
     }); }
 };
