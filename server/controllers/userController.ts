@@ -1,87 +1,44 @@
-const model = require('../models/model');
-import { RequestHandler, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+const express = require('express')
+import {db} from '../models/model'
 
-type userController = {
-    // getUser: RequestHandler,
-    // verifyUser: RequestHandler,
-    // jobApplication: RequestHandler,
-    createUser: RequestHandler,
-    // sendUser: RequestHandler
+type dbResponse = {
+    command: 'INSERT',
+    rows: []
 }
 
-const userController = {
-    // getUser: async (req: Request, res: Response, next: NextFunction) => {
-    //     const text = `select * from user_info`
-    //     try{
-    //         const login = await model.query(text)
-    //         console.log(login);
-    //         res.locals.userInfo = login;
-    //         return next();
-    //     }
-    //     catch (err) {
-    //         return next({
-    //             log: `Error in userController.getUser: ${err}`,
-    //             status: 500,
-    //             message: 'Error occured while retrieving user info',
-    //           });
-    //     }
-    // },
 
-    // verifyUser: async (req: Request, res: Response, next: NextFunction) => {
-    //     const { username, password } = req.body
-    //     const text = `select name from user_info where username=${username}, password=${password}`
-    //     try{
-    //         const name = await model.query(text)
-    //         console.log(name);
-    //         res.locals.name = name;
-    //         return next();
-    //     }
-    //     catch (err) {
-    //         return next({
-    //             log: `Error in userController.verifyUser: ${err}`,
-    //             status: 500,
-    //             message: 'Error occured while verifying user login',
-    //           });
-    //     }
-    // },
+export const userController = {
 
-    createUser: async (req: Request, res: Response, next: NextFunction) => {
-        const { username, password, name, email } = req.body
-        console.log(req.body);
-        const text = `insert into user_info values (default, '${username}', '${email}', '${password}', default, '${name}')`
-        try{
-            const createUser = await model.query(text);
-            console.log(createUser);
-            // res.locals.userInfo = login;
-            return next();
-        }
-        catch (err) {
-            return next({
-                log: `Error in userController.createUser: ${err}`,
-                status: 500,
-                message: 'Error occured while creating new user',
-              });
-        }
+    createUser:  (req: Request, res: Response, next: NextFunction) => {
+        const { name, username, email, password } = req.body;
+        console.log(name, username, email, password)
+        const query = `INSERT INTO user_info (username, email, password, name) 
+        VALUES ($1, $2, $3, $4)`;
+       const params = [`${username}`, `${email}`, `${password}`, `${name}`]
+
+        db.query(query, params, async (err:Error, resp:dbResponse) => {
+            if(err){
+                console.log(err)
+            }else {
+                res.locals.newUser = resp;
+                return next()
+            }
+        })
+    },
+
+
+
+    getInfo: (req:Request, res: Response, next: NextFunction) => {
+
+
+
+         
+
     }
 
-    // sendUser: async (req: Request, res: Response, next: NextFunction) => {
-    //     const { username } = req.body
-    //     const text = `select * from user_info where username=${username}`
-    //     try{
-    //         const sendUserInfo = await model.query(text)
-    //         console.log(sendUserInfo);
-    //         res.locals.userInfo = sendUserInfo;
-    //         return next();
-    //     }
-    //     catch (err) {
-    //         return next({
-    //             log: `Error in userController.sendUser: ${err}`,
-    //             status: 500,
-    //             message: 'Error occured while sending user info',
-    //           });
-    //     }
-    // },
-};
 
 
-export default userController;
+
+
+}

@@ -5,6 +5,7 @@ var express = require('express');
 var session = require('express-session');
 // const passport = require('passport')
 require('dotenv').config();
+var userRoute_1 = require("./routers/userRoute");
 var oAuthRouter_1 = require("./routers/oAuthRouter");
 // import { authController } from './controllers/authController';
 // require('./controllers/authController');
@@ -28,10 +29,7 @@ app.use(passport.session());
 if (process.env.NODE_ENV) {
     app.use('/', express.static(path.join(__dirname, '../dist')));
 }
-// app.use('/api/users', userRouter);
-app.use('/api/signup', function (req, res) {
-    return res.status(200).send('hi');
-});
+app.use('/api/user', userRoute_1["default"]);
 app.use('/login/success', function (req, res) {
     return res.status(200).send('welcome');
 });

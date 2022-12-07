@@ -36,28 +36,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.userController = void 0;
+exports.signupController = void 0;
 var express = require('express');
 var model_1 = require("../models/model");
-exports.userController = {
-    createUser: function (req, res, next) {
-        var _a = req.body, name = _a.name, username = _a.username, email = _a.email, password = _a.password;
-        console.log(name, username, email, password);
-        var query = "INSERT INTO user_info (username, email, password, name) \n        VALUES ($1, $2, $3, $4)";
-        var params = ["".concat(username), "".concat(email), "".concat(password), "".concat(name)];
-        model_1.db.query(query, params, function (err, resp) { return __awaiter(void 0, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    res.locals.newUser = resp;
-                    return [2 /*return*/, next()];
-                }
-                return [2 /*return*/];
-            });
-        }); });
-    },
-    getInfo: function (req, res, next) {
-    }
+exports.signupController = {
+    createUser: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, name, username, email, password, query, params;
+        return __generator(this, function (_b) {
+            _a = req.body, name = _a.name, username = _a.username, email = _a.email, password = _a.password;
+            console.log(name, username, email, password);
+            query = "INSERT INTO user_info (username, email, password, name) \n        VALUES ($1, $2, $3, $4)";
+            params = ["".concat(username), "".concat(email), "".concat(password), "".concat(name)];
+            model_1.db.query(query, params, function (err, resp) { return __awaiter(void 0, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        res.locals.newUser = resp;
+                        return [2 /*return*/, next()];
+                    }
+                    return [2 /*return*/];
+                });
+            }); });
+            return [2 /*return*/];
+        });
+    }); }
 };
