@@ -26,7 +26,7 @@ router.get('/:id/getApplications', applicationController.getApplications, (req:R
     return res.status(200).json(res.locals.applications)
 });
 
-router.patch('/:id/:appId/getApplication', applicationController.updateApplication, (req:Request, res:Response) => {
+router.patch('/:id/:appId/updateApplication', applicationController.updateApplication, (req:Request, res:Response) => {
     return res.status(200).send('successfully patched')
 });
 

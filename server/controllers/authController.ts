@@ -37,6 +37,7 @@ passport.use(new GoogleStrategy({
       if(user.rows[0]){
         return cb(null, user);
       } else {
+        //somehow add profile.displayName breaks the code
         const text = `insert into google_user (profile_id, email)  values (${profile.id}, '${profile.emails[0].value}')`
         const insert = await db.query(text);
         const findUser = `select * from google_user where profile_id = ${profile.id}`
