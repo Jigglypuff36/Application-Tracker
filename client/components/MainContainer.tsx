@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 import '../styles/index.css';
 import NavBar from './NavBar';
-import NewAppDetails from './NewAppDetails';
+import MainDisplay from './MainDisplay';
+import RootPage from './RootPage'
 const MainContainer = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [displayMode, setDisplayMode] = useState('');
-
+  // const [addApp, setAddApp] = useState()
 
 // iterate through the data. 1x card display per entry
 // function for that card
 // opens the card and shows you the info
 
-  const addApp = () => {
+  const addAppFunc = () => {
+    //setAddApp(sadfsadf)
     console.log('this adds another line');
   };
 
   const removeApp = () => {
     console.log('this removes');
+  };
+
+  const loginBtn = () => {
+    console.log('logging');
+    //fetch req here
   };
   // if the user is logged in (true) it will display MainContainer
   // if the user is not logged in (false) then it will display NewApplication(sign in or sign up)
@@ -28,8 +35,8 @@ const MainContainer = () => {
 
   return (
     <div>
-      <NavBar />
-      <NewAppDetails addApp={addApp} removeApp={removeApp} />
+      <NavBar addAppFunc={addAppFunc} />
+      <RootPage />
     </div>
   );
 };
