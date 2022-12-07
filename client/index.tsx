@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from 'react-dom';
-import NewApplication from './components/NewApplication.tsx'
-import Button from './components/Button.tsx'
-import FormInput from './components/FormInput.tsx'
+import NewApplication from './components/NewApplication'
+import Button from './components/Button'
+import FormInput from './components/FormInput'
 
 import './styles/index.css'
 const App = () => {
