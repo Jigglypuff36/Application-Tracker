@@ -4,7 +4,7 @@ const session = require('express-session')
 // const passport = require('passport')
 require('dotenv').config();
 import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
-import signupRoute from './routes/userRoute'
+import userRoute from './routers/userRoute'
 import oauthRouter from './routers/oAuthRouter';
 import { ErrorType } from '../types';
 import { db } from './models/model'
@@ -12,7 +12,6 @@ import { db } from './models/model'
 // require('./controllers/authController');
 // require('passport');
 import * as passport from 'passport';
-import userRouter from './routers/userRouter'
 // import session from 'express-session';
 // require('./controllers/authController');
 import './controllers/authController'
@@ -36,7 +35,7 @@ if (process.env.NODE_ENV) {
   app.use('/', express.static(path.join(__dirname, '../dist')));
 }
 
-app.use('/api/user', signupRoute)
+app.use('/api/user', userRoute)
 
 app.use('/login/success', (req: Request, res: Response) => {
   return res.status(200).send('welcome');

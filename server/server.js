@@ -2,12 +2,10 @@
 exports.__esModule = true;
 var path = require('path');
 var express = require('express');
-<<<<<<< HEAD
-var userRoute_1 = require("./routes/userRoute");
-=======
 var session = require('express-session');
 // const passport = require('passport')
 require('dotenv').config();
+var userRoute_1 = require("./routers/userRoute");
 var oAuthRouter_1 = require("./routers/oAuthRouter");
 // import { authController } from './controllers/authController';
 // require('./controllers/authController');
@@ -16,7 +14,6 @@ var passport = require("passport");
 // import session from 'express-session';
 // require('./controllers/authController');
 require("./controllers/authController");
->>>>>>> dev
 var app = express();
 var PORT = 3000;
 app.use(express.json());
@@ -32,13 +29,7 @@ app.use(passport.session());
 if (process.env.NODE_ENV) {
     app.use('/', express.static(path.join(__dirname, '../dist')));
 }
-<<<<<<< HEAD
 app.use('/api/user', userRoute_1["default"]);
-=======
-// app.use('/api/users', userRouter);
-app.use('/api/signup', function (req, res) {
-    return res.status(200).send('hi');
-});
 app.use('/login/success', function (req, res) {
     return res.status(200).send('welcome');
 });
@@ -61,7 +52,6 @@ app.use(function (err, req, res, next) {
     console.log(errorObj.log);
     return res.status(errorObj.status).json(errorObj.message);
 });
->>>>>>> dev
 //start app on port
 app.listen(PORT, function () {
     console.log("Server listening on port: ".concat(PORT, "..."));
