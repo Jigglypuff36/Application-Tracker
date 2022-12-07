@@ -24,6 +24,7 @@ const RootPage = ({ handleLogged }) => {
         }
       });
   };
+  //asdf
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">
