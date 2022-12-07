@@ -19,6 +19,10 @@ const MainContainer = () => {
   // iterate through the data. 1x card display per entry
   // function for that card
   // opens the card and shows you the info
+  const handleLogged = () => {
+    console.log(isLogged);
+    setIsLogged(true);
+  };
 
   const addAppFunc = () => {
     //setAddApp(sadfsadf)
@@ -40,12 +44,20 @@ const MainContainer = () => {
   // turn NewApplication component into one and pass it in here on Main Container if the user is Logged off(false)
   // pass in Main Container to index.tsx . have that with only one Component like <App />
   // prop drill from Main Container. Main Container will contain all the displays and the navbar
- 
+  if (!isLogged) {
     return (
       <div>
-        <RootPage />
+        <RootPage handleLogged={handleLogged} />
       </div>
     );
+  } else {
+    return (
+      <div>
+        <NavBar addAppFunc={addAppFunc} setApp={setApp} />
+        <MainDisplay />
+      </div>
+    );
+  }
 };
 
 export default MainContainer;

@@ -3,6 +3,7 @@ exports.__esModule = true;
 var path = require('path');
 var express = require('express');
 var session = require('express-session');
+var cors = require('cors');
 // const passport = require('passport')
 require('dotenv').config();
 var userRoute_1 = require("./routers/userRoute");
@@ -18,6 +19,7 @@ var app = express();
 var PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use(session({
     // resave: false,
     // saveUninitialized: true,

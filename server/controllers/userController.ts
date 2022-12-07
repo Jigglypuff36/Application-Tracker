@@ -7,7 +7,7 @@ type dbResponse = {
     command: 'INSERT',
     rows: []
 }
-
+// let userId:number|undefined;
 
 export const userController = {
 
@@ -27,7 +27,7 @@ export const userController = {
                     const secondQuery = `INSERT INTO user_info (username, email, password, name) 
                     VALUES ('${username}', '${email}', '${hash}', '${name}') RETURNING *;`;
                     const newUser = await db.query(secondQuery);
-                    res.locals.userInfo = newUser;
+                    res.locals.newUser = true;
                     return next();
                 });
             });
@@ -42,6 +42,7 @@ export const userController = {
     },
 
     getInfo: async (req:Request, res: Response, next: NextFunction) => {
+        console.log('userId LINE 45:', res.locals.userInfo)
         const { id } = req.body;
         const query = `SELECT * FROM application WHERE application_id='${id}';`
         try {
@@ -64,11 +65,16 @@ export const userController = {
         try {
             const result = await db.query(query)
 
-            // console.log('result :', result)
+            console.log('result LINE 67 :',result.rows[0].user_id)
+            const userId = result.rows[0].user_id;
             const compare = await bcrypt.compare(password, result.rows[0].password);
             // console.log('this is compare : ', compare);
             if(!compare){
                 res.locals.userInfo = false;
+            }else {
+                const secondQuery = `SELECT * FROM application WHERE application_id='${userId}';`
+                const allInfo = await db.query(secondQuery)
+                res.locals.userInfo = allInfo.rows;
             }
             return next()
         }

@@ -8,7 +8,7 @@ import {applicationController} from '../controllers/applicationController';
 
 router.post('/login', 
 userController.isLoggedIn,
-userController.getInfo,
+// userController.getInfo,
 (req:Request, res:Response) => {
     return res.status(200).send(res.locals.userInfo)
 });

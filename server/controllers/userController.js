@@ -40,6 +40,7 @@ exports.userController = void 0;
 var express = require('express');
 var model_1 = require("../models/model");
 var bcrypt = require("bcrypt");
+// let userId:number|undefined;
 exports.userController = {
     createUser: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
         var _a, name_1, username_1, email_1, password_1, saltRounds, err_1;
@@ -62,7 +63,7 @@ exports.userController = {
                                             return [4 /*yield*/, model_1.db.query(secondQuery)];
                                         case 1:
                                             newUser = _a.sent();
-                                            res.locals.userInfo = newUser;
+                                            res.locals.newUser = true;
                                             return [2 /*return*/, next()];
                                     }
                                 });
@@ -86,6 +87,7 @@ exports.userController = {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    console.log('userId LINE 45:', res.locals.userInfo);
                     id = req.body.id;
                     query = "SELECT * FROM application WHERE application_id='".concat(id, "';");
                     _a.label = 1;
@@ -108,7 +110,7 @@ exports.userController = {
         });
     }); },
     isLoggedIn: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, username, password, query, result, compare, err_3;
+        var _a, username, password, query, result, userId, compare, secondQuery, allInfo, err_3;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -116,27 +118,33 @@ exports.userController = {
                     query = "SELECT * FROM user_info WHERE username='".concat(username, "';");
                     _b.label = 1;
                 case 1:
-                    _b.trys.push([1, 4, , 5]);
-                    return [4 /*yield*/, model_1.db.query(query)
-                        // console.log('result :', result)
-                    ];
+                    _b.trys.push([1, 7, , 8]);
+                    return [4 /*yield*/, model_1.db.query(query)];
                 case 2:
                     result = _b.sent();
+                    console.log('result LINE 67 :', result.rows[0].user_id);
+                    userId = result.rows[0].user_id;
                     return [4 /*yield*/, bcrypt.compare(password, result.rows[0].password)];
                 case 3:
                     compare = _b.sent();
-                    // console.log('this is compare : ', compare);
-                    if (!compare) {
-                        res.locals.userInfo = false;
-                    }
-                    return [2 /*return*/, next()];
+                    if (!!compare) return [3 /*break*/, 4];
+                    res.locals.userInfo = false;
+                    return [3 /*break*/, 6];
                 case 4:
+                    secondQuery = "SELECT * FROM application WHERE application_id='".concat(userId, "';");
+                    return [4 /*yield*/, model_1.db.query(secondQuery)];
+                case 5:
+                    allInfo = _b.sent();
+                    res.locals.userInfo = allInfo.rows;
+                    _b.label = 6;
+                case 6: return [2 /*return*/, next()];
+                case 7:
                     err_3 = _b.sent();
                     return [2 /*return*/, next({
                             log: 'error in middleware isloggedin',
                             message: err_3
                         })];
-                case 5: return [2 /*return*/];
+                case 8: return [2 /*return*/];
             }
         });
     }); }

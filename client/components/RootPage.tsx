@@ -1,14 +1,14 @@
 import React from 'react';
 import LoginRoot from './LoginRoot';
 import SignUp from './SignUp';
-const RootPage = () => {
+const RootPage = ({ handleLogged }) => {
   const loginHandler = async (e) => {
     e.preventDefault();
     const userObj = {
       username: e.target.username.value,
       password: e.target.password.value,
     };
-    console.log(userObj);
+    // console.log(userObj);
     fetch(`http://localhost:8080/api/user/login`, {
       method: 'POST',
       headers: {
@@ -18,7 +18,10 @@ const RootPage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('response to the login attemp on login ', data);
+        console.log('response to the login attempt on login ', data);
+        if (data) {
+          handleLogged();
+        }
       });
   };
   return (
@@ -63,7 +66,7 @@ const RootPage = () => {
             <p className="flex justify-center text-xs my-2">OR</p>
           </form>
           <div className="divider divider-horizontal"></div>
-          <SignUp onClick={() => console.log('sign up')} />
+          <SignUp handleLogged={handleLogged} />
         </div>
       </div>
     </div>
