@@ -10,27 +10,26 @@ type dbResponse = {
 
 export const userController = {
 
-    createUser:  (req: Request, res: Response, next: NextFunction) => {
+    createUser: async (req: Request, res: Response, next: NextFunction) => {
         const { name, username, email, password } = req.body;
         console.log(name, username, email, password)
         const query = `INSERT INTO user_info (username, email, password, name) 
-        VALUES ($1, $2, $3, $4)`;
-       const params = [`${username}`, `${email}`, `${password}`, `${name}`]
-
-        db.query(query, params, async (err:Error, resp:dbResponse) => {
-            if(err){
-                console.log(err)
-            }else {
-                res.locals.newUser = resp;
-                return next()
-            }
-        })
+        VALUES ('${username}', '${email}', '${password}', '${name}')`;
+        try{
+            const result = await db.query(query)
+            return next()
+        }
+        catch(err) {
+            console.log(err)
+        }
+    
     },
 
 
 
-    getInfo: (req:Request, res: Response, next: NextFunction) => {
-
+    getInfo: async (req:Request, res: Response, next: NextFunction) => {
+        const { username, password } = req.body;
+        const query = `SELECT * FROM user_info WHERE username='${username}' AND password='${password}'`
 
 
          
