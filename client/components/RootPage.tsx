@@ -2,6 +2,25 @@ import React from 'react';
 import LoginRoot from './LoginRoot';
 import SignUp from './SignUp';
 const RootPage = () => {
+  const loginHandler = async (e) => {
+    e.preventDefault();
+    const userObj = {
+      username: e.target.username.value,
+      password: e.target.password.value,
+    };
+    console.log(userObj);
+    fetch(`http://localhost:8080/api/user/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userObj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('response to the login attemp on login ', data);
+      });
+  };
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">
@@ -10,7 +29,7 @@ const RootPage = () => {
           <p className="py-6">
             Track your application progress with AppTracker
           </p>
-          <form data-cy="login-form">
+          <form onSubmit={loginHandler} data-cy="login-form">
             <label className="label ml-7 mt-3" htmlFor="username">
               username:
             </label>
@@ -44,11 +63,11 @@ const RootPage = () => {
             <p className="flex justify-center text-xs my-2">OR</p>
           </form>
           <div className="divider divider-horizontal"></div>
-          <SignUp onClick={() => console.log('sign up')}/>
+          <SignUp onClick={() => console.log('sign up')} />
         </div>
       </div>
     </div>
   );
 };
 
-export default RootPage
+export default RootPage;
