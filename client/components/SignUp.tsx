@@ -1,5 +1,5 @@
 import React from 'react';
-
+//end point /api/user=> name, username, email, password
 const SignUp = () => {
   return (
     <button>

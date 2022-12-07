@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/index.css';
 import NewAppDetails  from  './NewAppDetails'
-const NavBar = ({addAppFunc}) => {
+const NavBar = ({addAppFunc, setApp, setResume, setStatus}) => {
 
 
   return (
@@ -20,7 +20,7 @@ const NavBar = ({addAppFunc}) => {
               tabIndex={0}
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <NewAppDetails addAppFunc={addAppFunc}/>
+              <NewAppDetails addAppFunc={addAppFunc} setResume={setResume} setStatus={setStatus} setApp={setApp}/>
             </ul>
         </div>
         <div className="dropdown dropdown-end">

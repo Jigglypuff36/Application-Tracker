@@ -1,15 +1,37 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Button } from 'react-daisyui';
 
-const NewAppDetails = ({ addAppFunc }) => {
+const NewAppDetails = ({ addAppFunc, setApp }) => {
   //iterate through the resume versions
   // arr.push(<option> data.resume)
-  const [addApp, setAddApp] = useState({company:'', status:'', resume:''})
-  // const handleChange = (e) => {
-  //   console.log(addApp)
-  //   setAddApp({...addApp, [e.target.name]: e.target.value})
-  // }
+  const [company, setCompany] = useState('')
+  const [status, setStatus] = useState('')
+  const [resume, setResume] = useState('')
+  // const [app, setApp] = useState({company:company, status:status, resume:resume})
+
+useEffect(() => {
+// then this is second.
+setApp(company)
+return console.log(company, '----', resume, '----', status)
+// if return. this is first
+
+},[company, status, resume])
+
+let companyInput = ''
+let statusInput;
+  const handleCompanyInput = (e) => {
+    companyInput += e.target.value
+    setCompany(companyInput)
+  }
+ 
+  const handleResumeChange = (e) => {
+    setResume(e)
+
+  }
   
+  const handleStatusChange = (e) => {
+    setStatus(e)
+  }
 
   // const currentStatus = ['Pending', 'Interviewing', 'Rejected']
   // const resumeUsed = ['First Version', 'Google Version', 'Standard Version']
@@ -21,23 +43,23 @@ const NewAppDetails = ({ addAppFunc }) => {
           type="text"
           placeholder="Company Name"
           className="input input-bordered input-success w-full max-w-xs"
-          onChange={(e) => console.log(e.target.value)}
+          onChange={handleCompanyInput}
           />
         <select 
         className="select select-secondary w-full max-w-xs"
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => handleResumeChange(e.target.value)}
 
         >
           <option disabled selected>
             Current Status
             </option>
-            <option>Pending</option>
-            <option>Interviewing</option>
-            <option>Rejected</option>
+            <option value='Pending'>Pending</option>
+            <option value='Interviewing'>Interviewing</option>
+            <option value='Rejected'>Rejected</option>
         </select>
         <select 
         className="select select-accent w-full max-w-xs"
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => handleStatusChange(e.target.value)}
         >
           <option disabled selected>
             Resume Used
