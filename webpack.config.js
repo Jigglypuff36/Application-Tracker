@@ -8,34 +8,19 @@ module.exports = {
     mode: process.env.NODE_ENV,
     output: {
         path: path.join(__dirname, 'dist'),
+        publicPath: '/',
         filename: 'bundle.js'
     },
     devtool: 'eval-source-map',
-    //
     devServer: {
         proxy: {
           '/': 'http://localhost:3000',
-          '/api/**': 'http://localhost:3000'
+          '/api/**': 'http://localhost:3000',
         },
         compress: true,
         port: 8080,
-        historyApiFallback: true
+        historyApiFallback: true,
       },
-    //
-    // devServer: {
-    //     host: 'localhost',
-    //     historyApiFallback: true,
-    //     proxy: {
-    //         '/': {
-    //             target: 'http//localhost:8080',
-    //             router: () => 'http//localhost:3000',
-    //         },
-    //         '/api': {
-    //             target: 'http//localhost:8080',
-    //             router: () => 'http//localhost:3000',
-    //         }
-    //     },
-    // },
     plugins: [new HtmlWebpackPlugin({
         template: './client/index.html',
         filename: 'index.html'
