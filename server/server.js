@@ -32,6 +32,12 @@ if (process.env.NODE_ENV) {
 app.use('/api/signup', function (req, res) {
     return res.status(200).send('hi');
 });
+app.use('/login/success', function (req, res) {
+    return res.status(200).send('welcome');
+});
+app.use('/login/error', function (req, res) {
+    return res.status(200).send('error loggin in w google');
+});
 app.use('/api/oauth', oAuthRouter_1["default"]);
 //redirect to page 404 when endpoint does not exist
 app.use('*', function (req, res) {

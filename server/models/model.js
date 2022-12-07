@@ -2,8 +2,8 @@
 exports.__esModule = true;
 exports.db = void 0;
 var pg_1 = require("pg");
-var dovenv = require('dotenv').config();
-var PG_URI = process.env.PG_URL;
+require('dotenv').config();
+var PG_URI = 'postgres://hcbdsxtj:QNIf6lS3Q3k_RPZXcfd6xLLcYUTK3Pe3@peanut.db.elephantsql.com/hcbdsxtj';
 var pool = new pg_1.Pool({
     connectionString: PG_URI
 });

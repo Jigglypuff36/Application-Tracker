@@ -41,6 +41,14 @@ app.use('/api/signup', (req: Request, res: Response) => {
   return res.status(200).send('hi');
 })
 
+app.use('/login/success', (req: Request, res: Response) => {
+  return res.status(200).send('welcome');
+})
+
+app.use('/login/error', (req: Request, res: Response) => {
+  return res.status(200).send('error loggin in w google');
+})
+
 app.use('/api/oauth', oauthRouter);
 
 

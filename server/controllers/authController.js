@@ -44,7 +44,7 @@ var dovenv = require('dotenv').config();
 //save to config.env before commit 
 var GOOGLE_CLIENT_ID = '423300255292-6bv81ekcrsb18ghje1iupihj2vgc18jo.apps.googleusercontent.com';
 var GOOGLE_CLIENT_SECRET = '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';
-var GOOGLE_CCLIENT_URL = 'http://localhost:3000/api/oauth/google/callback';
+var GOOGLE_CLIENT_URL = 'http://localhost:3000/api/oauth/google/callback';
 // const googleUser = {
 //   googleId: profile.id,
 //   displayName: profile.displayName,
@@ -52,12 +52,10 @@ var GOOGLE_CCLIENT_URL = 'http://localhost:3000/api/oauth/google/callback';
 //   lastName: profile.name.familyName,
 //   email: profile.emails[0].value
 // }
-// export const authController = {
-//   googlePassport: (passport: any) => {
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: GOOGLE_CCLIENT_URL,
+    callbackURL: GOOGLE_CLIENT_URL,
     passReqToCallback: true
 }, function (req, accessToken, refreshToken, profile, cb) { return __awaiter(void 0, void 0, void 0, function () {
     var text, user, text_1, user_1, err_1;
@@ -65,20 +63,20 @@ passport.use(new GoogleStrategy({
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 5, , 6]);
+                console.log('profile', profile);
                 text = "select * from google_user where user_id = '".concat(profile.id, "'");
                 return [4 /*yield*/, model_1.db.query(text)];
             case 1:
                 user = _a.sent();
-                if (!(user && user[0])) return [3 /*break*/, 2];
-                cb(null, user && user[0]);
-                return [3 /*break*/, 4];
+                console.log('user', user);
+                if (!user) return [3 /*break*/, 2];
+                return [2 /*return*/, cb(null, user)];
             case 2:
                 text_1 = "insert into google_user values ('".concat(profile.id, "', '").concat(profile.displayName, "',' ").concat(profile.givenName, "', '").concat(profile.emails[0].value, "')");
                 return [4 /*yield*/, model_1.db.query(text_1)];
             case 3:
                 user_1 = _a.sent();
-                cb(null, user_1);
-                _a.label = 4;
+                return [2 /*return*/, cb(null, user_1)];
             case 4: return [3 /*break*/, 6];
             case 5:
                 err_1 = _a.sent();
@@ -88,13 +86,37 @@ passport.use(new GoogleStrategy({
         }
     });
 }); }));
-//   }
-// };
+//create session token by grabbing the user data (id) and encode it and save it inside a cookie
 passport.serializeUser(function (user, cb) {
     console.log('serializing user:', user);
     cb(null, user.id);
 });
-passport.deserializeUser(function (user, cb) {
-    cb(null, user);
-});
+//user id encoded at the session/token
+//grab session token and grab the id and check database if this id exist
+//and then authenticate them
+passport.deserializeUser(function (id, cb) { return __awaiter(void 0, void 0, void 0, function () {
+    var text, userId, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                text = "select user_id from google_user where user_id = '".concat(id, "'");
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, model_1.db.query(text)];
+            case 2:
+                userId = _a.sent();
+                if (userId)
+                    cb(null, userId);
+                console.log("Deserialized user:", userId);
+                return [3 /*break*/, 4];
+            case 3:
+                err_2 = _a.sent();
+                console.log(err_2);
+                cb(err_2, null);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
 // export default authController;
