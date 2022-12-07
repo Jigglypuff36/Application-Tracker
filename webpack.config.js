@@ -1,5 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const e = require('express');
 
 module.exports = {
     entry: './client/index.tsx',
@@ -13,6 +15,7 @@ module.exports = {
     devServer: {
         proxy: {
           '/': 'http://localhost:3000',
+          '/api/**': 'http://localhost:3000'
         },
         compress: true,
         port: 8080,
