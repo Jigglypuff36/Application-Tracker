@@ -40,24 +40,35 @@ exports.userController = void 0;
 var express = require('express');
 var model_1 = require("../models/model");
 exports.userController = {
-    createUser: function (req, res, next) {
-        var _a = req.body, name = _a.name, username = _a.username, email = _a.email, password = _a.password;
-        console.log(name, username, email, password);
-        var query = "INSERT INTO user_info (username, email, password, name) \n        VALUES ($1, $2, $3, $4)";
-        var params = ["".concat(username), "".concat(email), "".concat(password), "".concat(name)];
-        model_1.db.query(query, params, function (err, resp) { return __awaiter(void 0, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    res.locals.newUser = resp;
+    createUser: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, name, username, email, password, query, result, err_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = req.body, name = _a.name, username = _a.username, email = _a.email, password = _a.password;
+                    console.log(name, username, email, password);
+                    query = "INSERT INTO user_info (username, email, password, name) \n        VALUES ('".concat(username, "', '").concat(email, "', '").concat(password, "', '").concat(name, "')");
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, model_1.db.query(query)];
+                case 2:
+                    result = _b.sent();
                     return [2 /*return*/, next()];
-                }
-                return [2 /*return*/];
-            });
-        }); });
-    },
-    getInfo: function (req, res, next) {
-    }
+                case 3:
+                    err_1 = _b.sent();
+                    console.log(err_1);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    }); },
+    getInfo: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+        var _a, username, password, query;
+        return __generator(this, function (_b) {
+            _a = req.body, username = _a.username, password = _a.password;
+            query = "SELECT * FROM user_info WHERE username='".concat(username, "' AND password='").concat(password, "'");
+            return [2 /*return*/];
+        });
+    }); }
 };
